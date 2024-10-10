@@ -1,6 +1,6 @@
 <?php
 ###############################################################################
-## Fancy Speed Test - Easily measure your upload and download speeds
+## Open Source Speed Test - Easily measure your upload and download speeds
 ## Home Page:   https://www.brandonchecketts.com/speedtest/
 ## Author:      Brandon Checketts
 ## File:        index.php
@@ -22,7 +22,7 @@ if($config->{'general'}->{'auto_start'}) {
 ?>
 <html>
 <head>
-<title><?php print $config->{'general'}->{'page_title'}; ?> - Fancy Speed Test</title>
+<title><?php print $config->{'general'}->{'page_title'}; ?> - Open Source Speed Test</title>
 <meta http-equiv="Expires" CONTENT="Fri, Jan 1 1980 00:00:00 GMT" />
 <meta http-equiv="Pragma" CONTENT="no-cache" />
 <meta http-equiv="Cache-Control" CONTENT="no-cache" />
@@ -50,7 +50,7 @@ if(file_exists("welcome.html")) {
     ## Else print a standard welcome message
 ?>
 <center>
-<h2>Fancy  Speed Test</h2>
+<h2>Open Source  Speed Test</h2>
 <div style="width: 400px;">
 Welcome to our speedtest.  This test will measure your connection speed to and
 from our server by downloading some data from our server, and then uploading it
@@ -61,7 +61,7 @@ back to the server.  The test should take approximately 30 seconds to complete.
 
 <center><h2><a class="start_test" title="Begin Speed Test" href="<?php echo rtrim($config->{'general'}->{'base_url'}, '/'); ?>/download.php">Start Test</a></h2></center>
 <div id="speedtest_credits">
-    Powered by <a title="Brandon Checketts Fancy Source Speedtest" href="https://www.brandonchecketts.com/speedtest/" target="_new">Fancy Speed Test</a>
+    Powered by <a title="Open Source Source Speedtest" href="https://www.brandonchecketts.com/speedtest/" target="_new">Open Source Speed Test</a>
 </div>
 </div>
 <?php

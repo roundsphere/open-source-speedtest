@@ -2,7 +2,7 @@
 
 This is a basic speed test application, originally written in 2006 using PHP and Perl.
 
-Sample test at https://www.brandonchecketts.com/speedtest/
+Sample test at https://www.brandonchecketts.com/speedtest/speedtest/
 
 Features
  - Upload and download bandwidth tests
@@ -12,6 +12,4 @@ Features
  - Restrict to particular networks / IP Addresses
  - Customizable look
  - Customizable maximum file sizes
- - Sample Speedtest
- - Example test here
-
+ - Completes in ~3 seconds on modern (circa 2024) networks and is decently accurate

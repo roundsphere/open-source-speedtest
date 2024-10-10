@@ -1,6 +1,6 @@
 <?php
 ###############################################################################
-## Fancy Speed Test - Easily measure your upload and download speeds
+## Open Source Speed Test - Easily measure your upload and download speeds
 ## Home Page:   https://www.brandonchecketts.com/speedtest/
 ## Author:      Brandon Checketts
 ## File:        common.php

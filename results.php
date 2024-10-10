@@ -1,6 +1,6 @@
 <?php
 ###############################################################################
-## Fancy Speed Test - Easily measure your upload and download speeds
+## Open Source Speed Test - Easily measure your upload and download speeds
 ## Home Page:   https://www.brandonchecketts.com/speedtest/
 ## Author:      Brandon Checketts
 ## File:        results.php
@@ -47,7 +47,7 @@ if($config->{'database'}->{'enable'}) {
 ?>
 <html>
 <head>
-<title><?php print $config->{'general'}->{'page_title'}; ?> - Fancy  Speed Test</title>
+<title><?php print $config->{'general'}->{'page_title'}; ?> - Open Source  Speed Test</title>
 <meta http-equiv="Expires" CONTENT="Fri, Jan 1 1980 00:00:00 GMT" />
 <meta http-equiv="Pragma" CONTENT="no-cache" />
 <meta http-equiv="Cache-Control" CONTENT="no-cache" />
@@ -123,7 +123,7 @@ if(file_exists("header.html")) {
 <h2><a class="start_test" href="<?php echo $config->{'general'}->{'base_url'}; ?>/download.php">Test Again</a></h2>
 </center>
 <div id="speedtest_credits">
-    Powered by <a title="Brandon Checketts Fancy Speed Test" href="https://www.brandonchecketts.com/speedtest/" target="_new">Fancy Speed Test</a>
+    Powered by <a title="Open Source Speed Test" href="https://www.brandonchecketts.com/speedtest/" target="_new">Open Source Speed Test</a>
 </div>
 </div>
 
