@@ -1,0 +1,27 @@
+###############################################################################
+## Fancy Speed Test - Easily measure your upload and download speeds
+## Home Page:   https://www.brandonchecketts.com/speedtest/
+## Author:      Brandon Checketts
+## File:        CHANGELOG
+## Version:     1.2
+## Date:        2024-10-09
+## Purpose:     Detail changes
+###############################################################################
+
+Version 1.2 - 2024-10-09
+ - Change http:// links to https://
+
+Version 1.1 - 2006-02-06 - Lots of work today
+ - Added a lot of improvements to make it easier to integrate into an
+   existing site.
+ - Moved some CSS values into style.css and added a image_path config variable
+   to define where the images are at
+ - Added support for a footer.html, and moved some of the content around
+   so that this works correctly
+
+
+Version 1.0 - 2006-02-06 - Initial Public Release
+ - Inital release.  Everything works well for me and it looks good :)
+
+
+

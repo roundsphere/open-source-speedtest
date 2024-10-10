@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+$to_generate = 10000000;
+$limit = 256*256*256*256;
+$output_file = "payload";
+
+print "Creating $to_generate integers into '$output_file'\n";
+
+$i=0;
+open(OF, "> $output_file") || die "Unable to create output file $output_file\n";
+while($i < $to_generate) {
+    $rand = int(rand($limit));
+#    print "$rand\n";
+    print OF pack('I',$rand);
+    $i++;
+}
+close(OF);
+
