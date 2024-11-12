@@ -120,7 +120,7 @@ if(file_exists("header.html")) {
 ?>
 
 <br /><br />
-<h2><a class="start_test" href="<?php echo $config->{'general'}->{'base_url'}; ?>/download.php">Test Again</a></h2>
+<h2><a class="start_test" href="<?=$config['general']['base_url'];?>download.php">Test Again</a></h2>
 </center>
 <div id="speedtest_credits">
     Powered by <a title="Open Source Speed Test" href="https://www.brandonchecketts.com/speedtest/" target="_new">Open Source Speed Test</a>

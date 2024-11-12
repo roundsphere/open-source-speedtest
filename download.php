@@ -16,58 +16,59 @@ ReadConfig("speedtest.cfg");
 
 ## Make sure this user is allowed to use the test
 $remote_addr = $_SERVER['REMOTE_ADDR'];
-$disallow = $config->{'general'}->{'disallow'};
-$allow = $config->{'general'}->{'allow'};
-if( $allow && (! preg_match("/$allow/",$remote_addr)) ) {
+$disallow = $config['general']['disallow'] ?? false;
+$allow = $config['general']['allow'] ?? false;
+
+if ($allow && (! preg_match("/{$allow}/",$remote_addr)) ) {
     include("unallowed.html");
     exit;
-} elseif( $disallow && preg_match("/$disallow/", $remote_addr) ) {
+} elseif ($disallow && preg_match("/{$disallow}/", $remote_addr) ) {
     include("unallowed.html");
     exit;
 }
-
 
 
 ## Figure out how many bytes to download/upload depending on if we are using
 ## auto_size or not.  If using auto_size, then determine sizes based
 ## on initial results
-$config_auto_size = $config->{'general'}->{'auto_size'};
-if($config_auto_size) {
+$config_auto_size = $config['general']['auto_size'] ?? 0;
+
+if ($config_auto_size) {
     ## We're using the auto_size functionality
-    if( isset($_GET['auto_size']) && $_GET['auto_size']) {
+    if (isset($_GET['auto_size']) && $_GET['auto_size']) {
         ## Intial test is done.  Set down/upload sizes to the same as
         ## our initial measured speeds.   That way the test should take
         ## about 8 seconds for each test (up/down) making it about a
         ## 16 second test
-        $down_kbytes = $_GET['downspeed'];
-        $up_kbytes = $_GET['upspeed'];
+        $down_kbytes = $_GET['downspeed'] ?? null;
+        $up_kbytes = $_GET['upspeed'] ?? null;
     } else {
         ## Initial test using auto_size
-        $down_kbytes = $config->{'download'}->{'initial_kbytes'};
-        $up_kbytes = $config->{'upload'}->{'initial_kbytes'};
+        $down_kbytes = $config['download']['initial_kbytes'];
+        $up_kbytes = $config['upload']['initial_kbytes'];
    }
 } else {
     ## auto_size is off.  Just to the default sizes
-    $down_kbytes = $config->{'download'}->{'default_kbytes'};
-    $up_kbytes = $config->{'upload'}->{'default_kbytes'};
+    $down_kbytes = $config['download']['default_kbytes'];
+    $up_kbytes = $config['upload']['default_kbytes'];
 }
 
 
 ## Make sure sizes are below our configured limits
-if($down_kbytes > $config->{'download'}->{'max_kbytes'}) {
-    $down_kbytes = $config->{'download'}->{'max_kbytes'};
+if ($down_kbytes > $config['download']['max_kbytes']) {
+    $down_kbytes = $config['download']['max_kbytes'];
 }
-if($up_kbytes > $config->{'upload'}->{'max_kbytes'}) {
-    $up_kbytes = $config->{'upload'}->{'max_kbytes'};
+if ($up_kbytes > $config['upload']['max_kbytes']) {
+    $up_kbytes = $config['upload']['max_kbytes'];
 }
 
-if($config->{'upload'}->{'skip_upload'}) {
+if ($config['upload']['skip_upload']) {
     $up_kbytes = 0;
 }
 
 ## Calculate number of loops for up/down, etc
 $each_chunk = 50;
-$progress_bar_width="400";
+$progress_bar_width = "400";
 $reloads = $down_kbytes / $each_chunk;
 $increment = $progress_bar_width / $reloads;
 $download_progress_bar_increment = $increment;
@@ -76,13 +77,12 @@ $reloads = $up_kbytes / $each_chunk;
 $increment = $reloads ? $progress_bar_width / $reloads : 1;
 $upload_progress_bar_increment = $increment / 5;
 
-
-$pretty_version = $config->{'general'}->{'pretty_version'};
+$pretty_version = $config['general']['pretty_version'] ?? false;
 ?>
 
 <html>
 <head>
-<title><?php print $config->{'general'}->{'page_title'}; ?> - Open Source Speed Test</title>
+<title><?=$config['general']['page_title'];?> - Open Source Speed Test</title>
 <meta http-equiv="Expires" CONTENT="Fri, Jan 1 1980 00:00:00 GMT" />
 <meta http-equiv="Pragma" CONTENT="no-cache" />
 <meta http-equiv="Cache-Control" CONTENT="no-cache" />
@@ -91,7 +91,7 @@ $pretty_version = $config->{'general'}->{'pretty_version'};
 <body>
 
 <?php
-if(file_exists("header.html")) {
+if (file_exists("header.html")) {
     ## Include "header.html" for a custom header, if the file exists
     include("header.html");
 } else {
@@ -102,7 +102,7 @@ if(file_exists("header.html")) {
 <div id="speedtest_contents">
 
 <?php
-if( ($config_auto_size) && (! isset($_GET['auto_size'])) ) {
+if ( ($config_auto_size) && (! isset($_GET['auto_size'])) ) {
     ## auto_size is performing the initial, small test
     print "<div>Calculating appropriate file sizes for testing</div>\n";
     ob_flush();
@@ -111,9 +111,9 @@ if( ($config_auto_size) && (! isset($_GET['auto_size'])) ) {
 
 <div id="download_message">
     <center>
-    Conducting Download Test (<?php echo $down_kbytes; ?> kb)
+    Conducting Download Test (<?=$down_kbytes;?> kb)
     <div style="border: 1px solid black; width: <?php echo $progress_bar_width; ?>" align="left" id="download_bar_div">
-        <img src="<?php echo $config->{'general'}->{'image_path'}; ?>bar.gif" width="0;" height="20px;" id="download_bar" />
+        <img src="<?=$config['general']['image_path'];?>bar.gif" width="0;" height="20px;" id="download_bar" />
     </div>
     </center>
 </div>
@@ -121,9 +121,9 @@ if( ($config_auto_size) && (! isset($_GET['auto_size'])) ) {
 <div id="upload_message" style="visibility: hidden; display:none;">
     <center>
     <br /><br />
-    Conducting Upload Test (<?php echo $up_kbytes; ?> kb)
-    <div style="border: 1px solid black; width: <?php echo $progress_bar_width; ?>" align="left" id="upload_bar_div">
-            <img src="<?php echo $config->{'general'}->{'image_path'}; ?>bar.gif" width="0;" height="20px;" id="upload_bar" />
+    Conducting Upload Test (<?=$up_kbytes;?> kb)
+    <div style="border: 1px solid black; width: <?=$progress_bar_width;?>" align="left" id="upload_bar_div">
+	    <img src="<?=$config['general']['image_path'];?>bar.gif" width="0;" height="20px;" id="upload_bar" />
     </div>
     </center>
 </div>
@@ -193,8 +193,7 @@ function CompleteDownloadBar() {
 // -->
 </script>
 
-
-<form id="upload_test_form" name="upload_test" method="POST" action="<?php echo $config->{'general'}->{'upload_url'}; ?>">
+<form id="upload_test_form" name="upload_test" method="POST" action="<?=$config['general']['upload_url'];?>">
 <input type="hidden" id="upload_data" name="upload_data" value="" />
 
 <script language="javascript">
@@ -207,24 +206,22 @@ starttime = time.getTime();
 
 <?php
 
-if($pretty_version) {
+if ($pretty_version) {
 print "
 //-->
 </script>
 ";
 }
-
-
     ## Read some stuff from our payload file
-	$data_file = "payload.js";
-	$fd = fopen ($data_file, "r");
+    $data_file = "payload.js";
+    $fd = fopen ($data_file, "r");
     $data = fread ($fd, $each_chunk * 1024);
 
     ## Download $extra_down_kbytes first as junk
     $extra_down_kbytes = $down_kbytes - $up_kbytes;
     $total_kbytes = 0;
-    while($total_kbytes <= $extra_down_kbytes) {
-        if($pretty_version) {
+    while ($total_kbytes <= $extra_down_kbytes) {
+        if ($pretty_version) {
         print "
 <script language=\"javascript\">
 <!--
@@ -238,7 +235,7 @@ IncrementDownloadBar();
         }
         $total_kbytes += $each_chunk;
     }
-    if(!$pretty_version) {
+    if (!$pretty_version) {
         print "dataElement.value=\"$data\";";
         print "CompleteDownloadBar();\n";
     } else {
@@ -252,8 +249,8 @@ IncrementDownloadBar();
 
     ## Now, download the remaining bytes ($up_kbytes)  and save it into a
     ## form variable that we will post back to test the upload speed
-    while($total_kbytes <= $down_kbytes) {
-        if($pretty_version) {
+    while ($total_kbytes <= $down_kbytes) {
+        if ($pretty_version) {
         print "
 <script language=\"javascript\">
 <!--
@@ -268,7 +265,7 @@ IncrementDownloadBar();
         $total_kbytes += $each_chunk;
     }
 
-    if(!$pretty_version) {
+    if (!$pretty_version) {
         #print "\";";
     } else {
         print "
@@ -286,7 +283,7 @@ IncrementDownloadBar();
 	} else {
 	    downloadtime = (endtime - starttime)/1000;
 	}
-    <?php if(! $config->{'upload'}->{'skip_upload'}){ ?> StartUpload(); <?php } ?>
+    <?php if (!$config['upload']['skip_upload']){ ?> StartUpload(); <?php } ?>
 
 	down_size = <?php echo $total_kbytes; ?>;
 	downspeed     = down_size/downloadtime;
@@ -300,10 +297,11 @@ if($config_auto_size && (! isset($_GET['auto_size'])) ) {
 } else {
     $params_auto_size = "";
 }
-if($config->{'upload'}->{'skip_upload'} && (! $params_auto_size)) {
-    $next_url = $config->{'general'}->{'base_url'}."results.php";
+
+if ($config['upload']['skip_upload'] && (!$params_auto_size)) {
+    $next_url = "{$config['general']['base_url']}results.php";
 } else {
-    $next_url = $config->{'general'}->{'upload_url'};
+    $next_url = $config['general']['upload_url'];
 }
 
 ?>

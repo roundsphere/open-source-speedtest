@@ -14,15 +14,15 @@ require("common.php");
 ReadConfig("speedtest.cfg");
 
 ## Redirect immediately to download.php if auto_start = 1
-if($config->{'general'}->{'auto_start'}) {
-    Header("Location: ".$config->{'general'}->{'base_url'}."/download.php");
+if (!empty($config['general']['auto-start'])) {
+    header("Location: {$config['general']['base_url']}/download.php");
     exit;
 }
-
 ?>
-<html>
+
+<html lang="en">
 <head>
-<title><?php print $config->{'general'}->{'page_title'}; ?> - Open Source Speed Test</title>
+<title><?=$config['general']['page_title'];?> - Open Source Speed Test</title>
 <meta http-equiv="Expires" CONTENT="Fri, Jan 1 1980 00:00:00 GMT" />
 <meta http-equiv="Pragma" CONTENT="no-cache" />
 <meta http-equiv="Cache-Control" CONTENT="no-cache" />
@@ -31,7 +31,7 @@ if($config->{'general'}->{'auto_start'}) {
 <body>
 
 <?php
-if(file_exists("header.html")) {
+if (file_exists("header.html")) {
     ## Include "header.html" for a custom header, if the file exists
     include("header.html");
 } else {
@@ -39,16 +39,17 @@ if(file_exists("header.html")) {
     print "<center>\n";
 }
 ?>
+
 <div id="speedtest_content">
 
-
 <?php
-if(file_exists("welcome.html")) {
+if (file_exists("welcome.html")) {
     ## Include "welcome.html" for a custom welcome page, if the file exists
     include("welcome.html");
 } else {
     ## Else print a standard welcome message
 ?>
+
 <center>
 <h2>Open Source  Speed Test</h2>
 <div style="width: 400px;">
@@ -59,13 +60,14 @@ back to the server.  The test should take approximately 30 seconds to complete.
 </center>
 <?php } ?>
 
-<center><h2><a class="start_test" title="Begin Speed Test" href="<?php echo rtrim($config->{'general'}->{'base_url'}, '/'); ?>/download.php">Start Test</a></h2></center>
+<center><h2><a class="start_test" title="Begin Speed Test" href="<?=rtrim($config['general']['base_url'], '/'); ?>/download.php">Start Test</a></h2></center>
 <div id="speedtest_credits">
     Powered by <a title="Open Source Source Speedtest" href="https://www.brandonchecketts.com/speedtest/" target="_new">Open Source Speed Test</a>
 </div>
 </div>
+
 <?php
-if(file_exists("footer.html")) {
+if (file_exists("footer.html")) {
     ## Include "footer.html" for a custom footer, if the file exists
     include("footer.html");
 } else {
@@ -73,6 +75,6 @@ if(file_exists("footer.html")) {
     print "</center>\n";
 }
 ?>
+
 </body>
 </html>
-

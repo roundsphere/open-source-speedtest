@@ -16,14 +16,15 @@ function ReadConfig($config_file) {
     $lines = file($config_file);
     foreach ($lines as $line_num => $line) {
         $line = rtrim(preg_replace("/#.*/","",$line));
-        if(preg_match("/\[.*\]/", $line, $parts)) {
+        if (preg_match("/\[.*\]/", $line, $parts)) {
             $section = $parts[0];
             $section = preg_replace("/[\[\]]/","",$section);
         } elseif (preg_match("/=/",$line)) {
             list($var,$value) = explode('=',$line);
             $var = preg_replace('/ $/','',$var);
             $value = preg_replace('/^ +/','',$value);
-            @$config->{$section}->{$var} = $value;
+            # @$config->{$section}->{$var} = $value;
+	    $config[$section][$var] = $value;
         }
     }
 }
